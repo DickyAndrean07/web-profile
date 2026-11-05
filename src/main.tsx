@@ -78,11 +78,13 @@ function App() {
       gsap.to('.website-card', { y: -9, rotateZ: -1.5, duration: 3.6, repeat: -1, yoyo: true, ease: 'sine.inOut' });
       gsap.to('.flow-card', { y: 10, rotateZ: 1.3, duration: 4.2, repeat: -1, yoyo: true, ease: 'sine.inOut', delay: 0.5 });
       gsap.to('.office-card', { y: -7, rotateZ: 1.6, duration: 3.8, repeat: -1, yoyo: true, ease: 'sine.inOut', delay: 1 });
-      gsap.utils.toArray<HTMLElement>('[data-reveal]').forEach((el) => {
+    }, heroRef);
+    const revealCtx = gsap.context(() => {
+      document.querySelectorAll<HTMLElement>('[data-reveal]').forEach((el) => {
         gsap.fromTo(el, { y: 32, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: 'power2.out', scrollTrigger: { trigger: el, start: 'top 86%', once: true } });
       });
-    }, heroRef);
-    return () => ctx.revert();
+    }, document);
+    return () => { ctx.revert(); revealCtx.revert(); };
   }, [introDone]);
 
   return <>
